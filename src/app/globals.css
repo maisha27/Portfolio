@@ -1,26 +1,139 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Warm dark backgrounds — aged parchment in darkness */
+  --bg-base: #0d0802;
+  --bg-surface: #160e05;
+  --bg-card: #221508;
+  --bg-card-hover: #2c1d0c;
+
+  /* Borders */
+  --border-subtle: rgba(245, 220, 170, 0.055);
+  --border-gold: rgba(201, 162, 39, 0.2);
+
+  /* Primary accent: aged gold */
+  --accent: #c9a227;
+  --accent-dim: rgba(201, 162, 39, 0.12);
+
+  /* Supporting accents */
+  --amber: #d4760a;
+  --crimson: #9b2335;
+  --sapphire: #2e5fa3;
+  --sage: #4a7041;
+
+  /* Text: parchment scale — values chosen for WCAG AA contrast on --bg-base */
+  --text-primary: #f5e6c8;   /* ~11:1  — headings, key labels       */
+  --text-secondary: #ddc9a8; /* ~5.8:1 — body copy, descriptions    */
+  --text-muted: #8a6d4e;     /* ~2.8:1 — decorative/meta use only   */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-base: var(--bg-base);
+  --color-surface: var(--bg-surface);
+  --color-card: var(--bg-card);
+  --color-card-hover: var(--bg-card-hover);
+  --color-accent: var(--accent);
+  --color-txt-primary: var(--text-primary);
+  --color-txt-secondary: var(--text-secondary);
+  --color-txt-muted: var(--text-muted);
+  --font-sans: var(--font-eb-garamond);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-playfair);
+  --font-body: var(--font-lora);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: 17px;
+  line-height: 1.75;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle section separator — creates page rhythm between sections */
+section + section {
+  border-top: 1px solid rgba(201,162,39,0.10);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: rgba(201, 162, 39, 0.2); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* Selection */
+::selection {
+  background: rgba(201, 162, 39, 0.2);
+  color: var(--text-primary);
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ─── Ambient keyframes ──────────────────────────────────────────────────── */
+
+/* Organic candle-flicker applied to hero radial glows */
+@keyframes candlePulse {
+  0%,  100% { opacity: 1;    }
+  22%        { opacity: 0.66; }
+  47%        { opacity: 0.88; }
+  73%        { opacity: 0.70; }
+}
+
+/* Dust motes float upward and drift sideways */
+@keyframes dustFloat {
+  0%   { transform: translateY(0)      translateX(0);                         opacity: 0;    }
+  10%  {                                                                        opacity: 0.75; }
+  88%  {                                                                        opacity: 0.30; }
+  100% { transform: translateY(-160px) translateX(var(--dust-drift, 8px));     opacity: 0;    }
+}
+
+/* Chandelier pendulum sway — applied to inner wrapper so translateX(-50%) centering is unaffected */
+@keyframes chandelierSway {
+  0%,  100% { transform: rotate(0deg);    }
+  30%        { transform: rotate(0.8deg);  }
+  70%        { transform: rotate(-0.6deg); }
+}
+
+/* Section-level candle flicker — opacity-only for composited perf */
+@keyframes sectionFlicker {
+  0%,  100% { opacity: 1;    }
+  18%        { opacity: 0.80; }
+  44%        { opacity: 0.92; }
+  67%        { opacity: 0.76; }
+  85%        { opacity: 0.88; }
+}
+
+/* ─── Paper grain overlay ────────────────────────────────────────────────── */
+/* References #paper-grain SVG filter defined inline in layout.tsx            */
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.034;
+  background: #ffffff;
+  filter: url(#paper-grain);
+}
+
+/* ─── Reduced-motion: disable all ambient animations ────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  body::before    { display: none; }
+  .dust-mote      { display: none !important; }
+  .candle-glow    { animation: none !important; }
+  .chandelier     { animation: none !important; }
+  .section-candle { animation: none !important; }
 }

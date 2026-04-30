@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a2e"/>
+      <stop offset="100%" style="stop-color:#0a0620"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a78bfa;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:0.2"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="320" fill="url(#bg)"/>
+  <circle cx="160" cy="130" r="55" fill="url(#accent)"/>
+  <ellipse cx="160" cy="260" rx="90" ry="60" fill="url(#accent)"/>
+  <text x="160" y="310" font-family="system-ui" font-size="11" fill="rgba(167,139,250,0.5)" text-anchor="middle">Add profile.jpg to /public</text>
+</svg>
