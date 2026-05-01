@@ -25,13 +25,13 @@ const BODY_TEXT = "#ddc9a8";
 function OverviewLeft({ project }: { project: Project }) {
   const ac = project.accentColor;
   return (
-    <div className="flex flex-col gap-5 h-full overflow-y-auto p-7 md:p-8">
+    <div className="flex flex-col gap-5 md:h-full overflow-y-auto p-5 sm:p-7 md:p-8">
       <div>
         <p className="text-[10px] tracking-[0.3em] uppercase mb-3"
            style={{ color: `${ac}80`, fontFamily: "var(--font-geist-mono)" }}>
           {project.type}
         </p>
-        <h2 className="text-2xl sm:text-3xl font-bold leading-tight mb-3"
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight mb-3"
             style={{ color: "var(--text-primary)", fontFamily: "var(--font-playfair), Georgia, serif" }}>
           {project.title}
         </h2>
@@ -104,7 +104,7 @@ function OverviewLeft({ project }: { project: Project }) {
 function OverviewRight({ project }: { project: Project }) {
   const ac = project.accentColor;
   return (
-    <div className="flex flex-col gap-5 h-full overflow-y-auto p-7 md:p-8">
+    <div className="flex flex-col gap-5 md:h-full overflow-y-auto p-5 sm:p-7 md:p-8">
       <div>
         <p className="text-[10px] tracking-[0.25em] uppercase mb-3"
            style={{ color: "var(--text-muted)", fontFamily: "var(--font-geist-mono)" }}>
@@ -160,11 +160,19 @@ function GalleryLeft({ project }: { project: Project }) {
     <div className="flex flex-col h-full overflow-hidden" style={{ padding: "20px" }}>
       {/* Platform type label */}
       <p
-        className="flex-shrink-0 text-[10px] tracking-[0.3em] uppercase mb-4"
+        className="flex-shrink-0 text-[10px] tracking-[0.3em] uppercase mb-1.5 md:mb-4"
         style={{ color: `${ac}80`, fontFamily: "var(--font-geist-mono)" }}
       >
         {project.type}
       </p>
+
+      {/* Project title — mobile only, gives context in the compact bottom strip */}
+      <h3
+        className="md:hidden flex-shrink-0 text-sm font-bold mb-3 leading-tight truncate"
+        style={{ color: "var(--text-primary)", fontFamily: "var(--font-playfair), Georgia, serif" }}
+      >
+        {project.title}
+      </h3>
 
       {/* Cover image — fills remaining space, shown in full */}
       {project.media?.image ? (
@@ -258,8 +266,8 @@ function GalleryRight({ project, screenshots, screenshotIndex, goNext, goPrev, o
 
   return (
     <div
-      className="relative w-full h-full flex flex-col"
-      style={{ padding: "12px 12px 10px", gap: "8px", background: "rgba(0,0,0,0.32)", minHeight: "260px" }}
+      className="relative w-full flex flex-col h-full"
+      style={{ padding: "12px 12px 10px", gap: "8px", background: "rgba(0,0,0,0.32)" }}
     >
       {/* Screenshot frame — flex-1 so it fills available height */}
       <div
@@ -680,10 +688,8 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
       animate={{ scale: 1, opacity: 1, y: 0 }}
       exit={{ scale: 0.97, opacity: 0, y: 6 }}
       transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-      className="relative w-full flex flex-col overflow-hidden"
+      className="relative w-full max-w-full sm:max-w-[1060px] flex flex-col overflow-hidden h-dvh sm:h-[min(90vh,720px)]"
       style={{
-        maxWidth: "1060px",
-        height: "min(90vh, 720px)",
         background: `linear-gradient(160deg, ${project.gradientFrom} 0%, ${project.gradientTo} 100%)`,
         border: "1px solid rgba(201,162,39,0.14)",
         boxShadow: "0 40px 100px rgba(0,0,0,0.85), 0 12px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(245,220,170,0.04)",
@@ -692,7 +698,7 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
     >
       {/* ── HEADER ───────────────────────────────────────────────────────────── */}
       <div
-        className="flex items-center justify-between px-6 py-3.5 flex-shrink-0"
+        className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-3.5 flex-shrink-0"
         style={{
           borderBottom: `1px solid ${ac}1e`,
           background: `linear-gradient(90deg, ${project.gradientFrom}cc 0%, rgba(0,0,0,0.28) 100%)`,
@@ -730,7 +736,7 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
       </div>
 
       {/* ── SPREAD AREA ─────────────────────────────────────────────────────── */}
-      <div className="flex-1 relative overflow-hidden">
+      <div className="flex-1 relative overflow-x-hidden overflow-y-auto md:overflow-hidden">
 
         {/* ── COVER OPENING ANIMATION ──────────────────────────────────────── */}
         {/* The cover sits over the LEFT half of the spread (the left page area).
@@ -740,6 +746,7 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
         {!prefersReducedMotion && (
           <div
             aria-hidden
+            className="hidden sm:block"
             style={{
               position: "absolute", inset: 0, zIndex: 20,
               perspective: "1000px",
@@ -831,7 +838,7 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
           initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: prefersReducedMotion ? 0 : 0.30, duration: 0.32 }}
-          className="absolute inset-0"
+          className="h-full md:absolute md:inset-0"
         >
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
@@ -841,12 +848,12 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
               initial="enter"
               animate="center"
               exit="exit"
-              className={`absolute inset-0 grid grid-cols-1 ${isOverview ? 'md:grid-cols-[1fr_4px_1fr]' : 'md:grid-cols-[1fr_4px_2fr]'}`}
+              className={`md:absolute md:inset-0 grid grid-cols-1 ${isOverview ? 'min-h-full md:grid-cols-[1fr_4px_1fr]' : 'h-full grid-rows-[minmax(0,2fr)_minmax(0,1fr)] md:grid-rows-none md:grid-cols-[1fr_4px_2fr]'}`}
             >
 
               {/* LEFT PAGE — mobile: order 2 */}
               <div
-                className="order-2 md:order-none overflow-hidden"
+                className="h-full order-2 md:order-none overflow-hidden border-t border-[rgba(201,162,39,0.12)] md:border-t-0"
                 style={{
                   background: "linear-gradient(to bottom right, rgba(245,232,210,0.062), rgba(245,232,210,0.035))",
                   boxShadow: "inset -6px 0 16px rgba(0,0,0,0.18)",
@@ -874,7 +881,7 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
 
               {/* RIGHT PAGE — mobile: order 1 */}
               <div
-                className="order-1 md:order-none overflow-hidden"
+                className="h-full order-1 md:order-none overflow-hidden"
                 style={{
                   background: "rgba(245,232,210,0.030)",
                   boxShadow: "inset 6px 0 16px rgba(0,0,0,0.18)",
@@ -913,7 +920,7 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
 
       {/* ── FOOTER ───────────────────────────────────────────────────────────── */}
       <div
-        className="flex items-center justify-between px-6 py-3.5 flex-shrink-0"
+        className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-3.5 flex-shrink-0"
         style={{
           borderTop: `1px solid ${ac}18`,
           background: `linear-gradient(90deg, rgba(0,0,0,0.22) 0%, ${project.gradientTo}cc 100%)`,
@@ -1127,7 +1134,7 @@ export default function BookModal({ project, onClose }: BookModalProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.28 }}
-            className="fixed inset-0 flex items-center justify-center p-4 sm:p-6"
+            className="fixed inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6"
             style={{
               zIndex: 60,
               backdropFilter: "blur(14px)",

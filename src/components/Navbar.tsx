@@ -28,7 +28,7 @@ export default function Navbar() {
         borderBottom: scrolled ? "1px solid rgba(201,162,39,0.1)" : "1px solid transparent",
       }}
     >
-      <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <nav className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* Logo — Gothic arch monogram */}
         <a href="#" className="group flex items-center gap-2.5" aria-label="Home">
           <div className="relative w-9 h-9 flex items-center justify-center">
@@ -145,7 +145,7 @@ export default function Navbar() {
               borderBottom: "1px solid rgba(201,162,39,0.1)",
             }}
           >
-            <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col gap-5">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 sm:py-6 flex flex-col gap-5">
               {links.map((link) => (
                 <a
                   key={link.href}

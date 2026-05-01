@@ -278,10 +278,10 @@ export default function OtherProjects() {
   const [activeProject, setActiveProject] = useState<Project | null>(null);
 
   return (
-    <section className="py-24 relative" aria-label="Other projects">
+    <section className="py-16 sm:py-24 relative" aria-label="Other projects">
       {/* Ornamental section divider */}
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="flex items-center gap-4 mb-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="flex items-center gap-4 mb-12 sm:mb-24">
           <div className="flex-1 h-px" style={{ background: "rgba(201,162,39,0.08)" }} />
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
             <path
@@ -295,9 +295,9 @@ export default function OtherProjects() {
         </div>
       </div>
 
-      <div ref={ref} className="max-w-6xl mx-auto px-6">
+      <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="flex items-end justify-between mb-12 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-8 sm:mb-12 gap-3 sm:gap-4">
           <div>
             <motion.div
               variants={fadeUp}
@@ -319,7 +319,7 @@ export default function OtherProjects() {
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
               custom={0.05}
-              className="text-3xl font-bold tracking-tight"
+              className="text-2xl sm:text-3xl font-bold tracking-tight"
               style={{ color: "var(--text-primary)", fontFamily: "var(--font-playfair), Georgia, serif" }}
             >
               More things I&apos;ve built

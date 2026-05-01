@@ -40,6 +40,8 @@
   --font-mono: var(--font-geist-mono);
   --font-serif: var(--font-playfair);
   --font-body: var(--font-lora);
+  /* custom breakpoint below the default sm (640px) */
+  --breakpoint-xs: 480px;
 }
 
 html {
@@ -136,4 +138,33 @@ body::before {
   .candle-glow    { animation: none !important; }
   .chandelier     { animation: none !important; }
   .section-candle { animation: none !important; }
+}
+
+/* ─── Responsive base ────────────────────────────────────────────────────── */
+
+html {
+  overflow-x: hidden;
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+/* Arch portrait scaling on very small screens */
+@media (max-width: 359px) {
+  .arch-scale-wrapper {
+    transform: scale(0.82);
+    transform-origin: top center;
+    margin-bottom: -72px;
+  }
+}
+
+@media (min-width: 360px) and (max-width: 399px) {
+  .arch-scale-wrapper {
+    transform: scale(0.90);
+    transform-origin: top center;
+    margin-bottom: -40px;
+  }
 }

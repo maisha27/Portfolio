@@ -435,7 +435,7 @@ export default function FeaturedProjects() {
   const prefersReducedMotion = useReducedMotion() ?? false;
 
   return (
-    <section id="work" ref={ref} className="py-32 relative" aria-label="Featured projects">
+    <section id="work" ref={ref} className="py-20 sm:py-32 relative" aria-label="Featured projects">
       {/* Background warm glow */}
       <div
         className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[900px] h-[600px] pointer-events-none"
@@ -560,9 +560,9 @@ export default function FeaturedProjects() {
         }}
       />
 
-      <div className="max-w-6xl mx-auto px-6 relative">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">
         {/* ── Section header ── */}
-        <div className="mb-20">
+        <div className="mb-12 sm:mb-20">
           <motion.div
             variants={fadeUp} initial="hidden"
             animate={inView ? "visible" : "hidden"} custom={0}
@@ -581,7 +581,7 @@ export default function FeaturedProjects() {
           <motion.h2
             variants={fadeUp} initial="hidden"
             animate={inView ? "visible" : "hidden"} custom={0.07}
-            className="text-4xl md:text-5xl font-bold tracking-tight mb-4"
+            className="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4"
             style={{ color: "var(--text-primary)", fontFamily: "var(--font-playfair), Georgia, serif" }}
           >
             Projects with real-world outcomes

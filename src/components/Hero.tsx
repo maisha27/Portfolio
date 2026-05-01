@@ -442,8 +442,8 @@ export default function Hero() {
         }}
       />
 
-      <div className="relative max-w-6xl mx-auto px-6 pt-28 pb-20 w-full">
-        <div className="grid lg:grid-cols-[1fr_360px] gap-14 items-center">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-20 sm:pt-28 pb-14 sm:pb-20 w-full">
+        <div className="grid lg:grid-cols-[1fr_360px] gap-10 lg:gap-14 items-center">
 
           {/* ── Left: Content ── */}
           <div>
@@ -451,7 +451,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-flex items-center gap-2.5 mb-8"
+              className="inline-flex items-center gap-2.5 mb-6 sm:mb-8"
             >
               <span className="relative flex h-2 w-2">
                 <span
@@ -472,7 +472,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-              className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-4"
+              className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-4"
               style={{ fontFamily: "var(--font-playfair), Georgia, serif", color: "var(--text-primary)" }}
             >
               Maisha
@@ -508,7 +508,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
-              className="leading-relaxed max-w-xl mb-10"
+              className="leading-relaxed max-w-xl mb-8 sm:mb-10"
               style={{
                 color: "var(--text-secondary)",
                 lineHeight: "1.85",
@@ -524,7 +524,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
-              className="flex flex-wrap gap-2.5 mb-10"
+              className="flex flex-wrap gap-2 sm:gap-2.5 mb-8 sm:mb-10"
             >
               {brandPillars.map((pillar) => (
                 <span
@@ -547,11 +547,11 @@ export default function Hero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
-              className="flex flex-wrap gap-4 mb-12"
+              className="flex flex-wrap gap-3 sm:gap-4 mb-10 sm:mb-12"
             >
               <a
                 href="#work"
-                className="inline-flex items-center gap-2 px-7 py-3 text-sm font-semibold transition-all duration-400 hover:scale-[1.03]"
+                className="inline-flex items-center gap-2 px-5 sm:px-7 py-3 text-sm font-semibold transition-all duration-400 hover:scale-[1.03]"
                 style={{
                   background: "linear-gradient(135deg, rgba(201,162,39,0.92), rgba(172,115,8,0.88))",
                   color: "#0d0802",
@@ -568,7 +568,7 @@ export default function Hero() {
               </a>
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 px-7 py-3 text-sm font-medium transition-all duration-300"
+                className="inline-flex items-center gap-2 px-5 sm:px-7 py-3 text-sm font-medium transition-all duration-300"
                 style={{
                   color: "var(--text-primary)",
                   border: "1px solid rgba(201,162,39,0.35)",
@@ -596,7 +596,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
-              className="flex items-center gap-5"
+              className="flex flex-wrap items-center gap-4 sm:gap-5"
             >
               {[
                 { href: social.github,   Icon: GitHubIcon,   label: "GitHub"   },
@@ -617,10 +617,10 @@ export default function Hero() {
                   <Icon />
                 </a>
               ))}
-              <div className="w-px h-4 mx-1" style={{ background: "rgba(201,162,39,0.15)" }} />
+              <div className="hidden xs:block w-px h-4 mx-1" style={{ background: "rgba(201,162,39,0.15)" }} />
               <a
                 href={`mailto:${social.email}`}
-                className="text-xs transition-colors duration-200"
+                className="hidden xs:block text-xs transition-colors duration-200"
                 style={{ color: "var(--text-secondary)", fontFamily: "var(--font-geist-mono)" }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
@@ -634,6 +634,7 @@ export default function Hero() {
           {/* perspective: 1200px on this wrapper is the single perspective context
               for the entire 3D scene — the inner motion.div's whileHover rotateY/X
               and ArchFrame's translateZ layers all render in this same space.      */}
+          <div className="arch-scale-wrapper w-full flex justify-center overflow-x-clip">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -706,6 +707,7 @@ export default function Hero() {
               </motion.div>
             </motion.div>
           </motion.div>
+          </div>
         </div>
 
         {/* Scroll indicator — decorative, no information for screen readers */}

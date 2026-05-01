@@ -93,7 +93,7 @@ export default function Contact() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="contact" ref={ref} className="py-36 relative overflow-hidden" aria-label="Contact">
+    <section id="contact" ref={ref} className="py-20 sm:py-36 relative overflow-hidden" aria-label="Contact">
       <GrandArch />
 
       {/* Warm ambient glow */}
@@ -102,14 +102,14 @@ export default function Contact() {
         style={{ background: "radial-gradient(ellipse, rgba(201,162,39,0.045) 0%, transparent 65%)" }}
       />
 
-      <div className="max-w-4xl mx-auto px-6 text-center relative pt-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center relative pt-10 sm:pt-12">
         {/* Label */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
           custom={0}
-          className="flex items-center justify-center gap-4 mb-10"
+          className="flex items-center justify-center gap-4 mb-8 sm:mb-10"
         >
           <div className="h-px w-12" style={{ background: "rgba(201,162,39,0.3)" }} />
           <p
@@ -127,7 +127,7 @@ export default function Contact() {
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
           custom={0.07}
-          className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-6"
+          className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-5 sm:mb-6"
           style={{ color: "var(--text-primary)", fontFamily: "var(--font-playfair), Georgia, serif" }}
         >
           Let&apos;s build something
@@ -170,7 +170,7 @@ export default function Contact() {
           animate={inView ? "visible" : "hidden"}
           custom={0.17}
           href={`mailto:${social.email}`}
-          className="inline-flex items-center gap-3 px-8 py-4 text-base font-semibold transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl mb-14"
+          className="inline-flex items-center gap-2 sm:gap-3 px-5 sm:px-8 py-3.5 sm:py-4 text-sm sm:text-base font-semibold transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl mb-10 sm:mb-14 max-w-full truncate"
           style={{
             background: "linear-gradient(135deg, rgba(201,162,39,0.9), rgba(172,110,8,0.85))",
             color: "#0d0802",
@@ -197,7 +197,7 @@ export default function Contact() {
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
           custom={0.22}
-          className="flex items-center justify-center gap-7"
+          className="flex items-center justify-center gap-5 sm:gap-7"
         >
           {[
             { href: social.github,   Icon: GitHubIcon,   label: "GitHub"   },
@@ -228,7 +228,7 @@ export default function Contact() {
       </div>
 
       {/* Footer */}
-      <div className="max-w-6xl mx-auto px-6 mt-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-16 sm:mt-24">
         <div className="flex items-center gap-4 mb-8">
           <div className="flex-1 h-px" style={{ background: "rgba(201,162,39,0.07)" }} />
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">

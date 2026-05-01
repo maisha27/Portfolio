@@ -18,7 +18,7 @@ export default function About() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="about" ref={ref} className="py-32 relative" aria-label="About">
+    <section id="about" ref={ref} className="py-20 sm:py-32 relative" aria-label="About">
       {/* Warm ambient wash */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -28,14 +28,14 @@ export default function About() {
         }}
       />
 
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Section label */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
           custom={0}
-          className="flex items-center gap-4 mb-10"
+          className="flex items-center gap-4 mb-6 sm:mb-10"
         >
           <div className="h-px w-8" style={{ background: "rgba(201,162,39,0.35)" }} />
           <p
@@ -46,7 +46,7 @@ export default function About() {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Left: Bio */}
           <div>
             <motion.h2
@@ -54,7 +54,7 @@ export default function About() {
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
               custom={0.05}
-              className="text-4xl font-bold tracking-tight mb-8 leading-tight"
+              className="text-3xl sm:text-4xl font-bold tracking-tight mb-6 sm:mb-8 leading-tight"
               style={{ color: "var(--text-primary)", fontFamily: "var(--font-playfair), Georgia, serif" }}
             >
               Connecting design,
@@ -114,7 +114,7 @@ export default function About() {
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
               custom={0.2}
-              className="mt-8 p-6 relative"
+              className="mt-6 sm:mt-8 p-4 sm:p-6 relative"
               style={{
                 background: "rgba(245,220,170,0.06)",
                 border: "1px solid rgba(201,162,39,0.22)",
