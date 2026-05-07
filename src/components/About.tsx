@@ -78,35 +78,65 @@ export default function About() {
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
               custom={0.1}
-              className="leading-[1.85] mb-5"
+              className="leading-[1.85] mb-8"
               style={{
                 color: "var(--text-secondary)",
                 fontFamily: "var(--font-lora), Georgia, serif",
                 fontSize: "1.05rem",
               }}
             >
-              I&apos;m a passionate problem-solver who connects design, development, and real-world
-              needs to build meaningful digital products. I have experience working on full-stack
-              systems, mobile apps, and UI/UX design, and I enjoy creating intuitive and impactful
-              user experiences.
+              I&apos;m a creative product engineer who specialises in solving problems through empathy
+              and accessibility. Rather than building features, I build systems that users love —
+              connecting thoughtful design with robust development to create inclusive digital
+              experiences. I work across full-stack systems, mobile apps, and UI/UX design, always
+              keeping real users and their needs at the centre.
             </motion.p>
 
-            <motion.p
+            {/* How I Work */}
+            <motion.div
               variants={fadeUp}
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
               custom={0.15}
-              className="leading-[1.85]"
-              style={{
-                color: "var(--text-secondary)",
-                fontFamily: "var(--font-lora), Georgia, serif",
-                fontSize: "1.05rem",
-              }}
+              className="mb-8 sm:mb-10"
             >
-              Whether I&apos;m architecting a backend service, crafting a design system, or building
-              a mobile interface — I bring the same care for craft, clarity, and the end user to
-              everything I ship.
-            </motion.p>
+              <div className="flex items-center gap-3 mb-5">
+                <div className="h-px w-6" style={{ background: "rgba(201,162,39,0.35)" }} />
+                <p
+                  className="text-xs tracking-[0.25em] uppercase"
+                  style={{ color: "var(--accent)", fontFamily: "var(--font-geist-mono)" }}
+                >
+                  How I Work
+                </p>
+                <div className="flex-1 h-px" style={{ background: "rgba(201,162,39,0.08)" }} />
+              </div>
+              <ul className="space-y-4">
+                {[
+                  { label: "Understand the Problem", body: "I start by deeply understanding users, their pain points, and the context behind every decision." },
+                  { label: "Design with Empathy", body: "Every interface is built with accessibility and ease of use in mind — no user left behind." },
+                  { label: "Build Thoughtfully", body: "Clean code that scales, with performance and maintainability considered from day one." },
+                  { label: "Ship Real Solutions", body: "I see projects through from concept to live deployment, with real users at the finish line." },
+                ].map((step, i) => (
+                  <li key={i} className="flex gap-4">
+                    <span
+                      className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full"
+                      style={{ background: "var(--accent)" }}
+                    />
+                    <span
+                      style={{
+                        color: "var(--text-secondary)",
+                        fontFamily: "var(--font-lora), Georgia, serif",
+                        fontSize: "0.97rem",
+                        lineHeight: "1.75",
+                      }}
+                    >
+                      <strong style={{ color: "var(--text-primary)", fontWeight: 600 }}>{step.label}:</strong>{" "}
+                      {step.body}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
 
             {/* Recruiter signals — styled like a bookplate */}
             <motion.div

@@ -116,7 +116,7 @@ function Book3D({
               background: `linear-gradient(160deg, ${project.gradientFrom} 0%, ${project.gradientTo} 100%)`,
               border: `1px solid ${ac}2a`,
               boxShadow: active
-                ? `6px 14px 42px rgba(0,0,0,0.72), 0 0 0 1px ${ac}18, inset 8px 0 18px rgba(0,0,0,0.30)`
+                ? `6px 14px 42px rgba(0,0,0,0.72), 0 0 32px ${ac}20, 0 0 0 1px ${ac}22, inset 8px 0 18px rgba(0,0,0,0.30)`
                 : `4px 8px 28px rgba(0,0,0,0.55), inset 8px 0 18px rgba(0,0,0,0.22)`,
               transition: "box-shadow 0.35s",
             }}

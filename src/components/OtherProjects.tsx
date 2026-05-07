@@ -19,6 +19,8 @@ const fadeUp = {
 function BookCard({ project, delay, index, onOpen }: { project: Project; delay: number; index: number; onOpen: () => void }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
+  const [hovered, setHovered] = useState(false);
+  const ac = project.accentColor;
 
   return (
     <motion.article
@@ -34,12 +36,18 @@ function BookCard({ project, delay, index, onOpen }: { project: Project; delay: 
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(); } }}
-      style={{ cursor: "pointer",
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
+      style={{
+        cursor: "pointer",
         background: "var(--bg-card)",
         borderWidth: "1px",
         borderStyle: "solid",
-        borderColor: "rgba(201,162,39,0.18)",
-        boxShadow: "0 4px 24px rgba(0,0,0,0.32), 0 2px 6px rgba(0,0,0,0.18)",
+        borderColor: hovered ? `${ac}42` : "rgba(201,162,39,0.18)",
+        boxShadow: hovered
+          ? `0 16px 44px rgba(0,0,0,0.50), 0 0 28px ${ac}1e`
+          : "0 4px 24px rgba(0,0,0,0.32), 0 2px 6px rgba(0,0,0,0.18)",
+        transition: "box-shadow 0.35s, border-color 0.35s",
         transformPerspective: 900,
         transformOrigin: "left center",
       }}
@@ -160,7 +168,7 @@ function BookCard({ project, delay, index, onOpen }: { project: Project; delay: 
           {project.title}
         </h3>
 
-        {/* Description */}
+        {/* Impact / Description */}
         <p
           className="flex-1 mb-5 leading-relaxed"
           style={{
@@ -170,12 +178,12 @@ function BookCard({ project, delay, index, onOpen }: { project: Project; delay: 
             lineHeight: "1.72",
           }}
         >
-          {project.description}
+          {project.impactStatement ?? project.description}
         </p>
 
-        {/* Features */}
+        {/* Key Features */}
         <ul className="space-y-1.5 mb-5">
-          {project.features.slice(0, 2).map((f) => (
+          {(project.keyFeatures ?? project.features).slice(0, 2).map((f) => (
             <li key={f} className="flex items-start gap-2">
               <span
                 className="mt-1.5 w-1 h-1 rounded-full flex-shrink-0"

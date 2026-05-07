@@ -4,6 +4,9 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { Project } from "@/lib/types";
+import ProjectInfo from "./ProjectInfo";
+import ProcessFlow from "./ProcessFlow";
+import SystemDiagram from "./SystemDiagram";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -99,54 +102,60 @@ function OverviewLeft({ project }: { project: Project }) {
   );
 }
 
-// ─── Right page — Overview ────────────────────────────────────────────────────
+// OverviewRight replaced by ProjectInfo component (see ProjectInfo.tsx)
 
-function OverviewRight({ project }: { project: Project }) {
+// ─── Left page — How It Works ─────────────────────────────────────────────────
+
+function HowItWorksLeft({ project }: { project: Project }) {
   const ac = project.accentColor;
   return (
-    <div className="flex flex-col gap-5 md:h-full overflow-y-auto p-5 sm:p-7 md:p-8">
+    <div className="flex flex-col gap-4 md:h-full overflow-y-auto p-5 sm:p-7 md:p-8">
       <div>
-        <p className="text-[10px] tracking-[0.25em] uppercase mb-3"
-           style={{ color: "var(--text-muted)", fontFamily: "var(--font-geist-mono)" }}>
-          About
+        <p className="text-[10px] tracking-[0.3em] uppercase mb-2"
+           style={{ color: `${ac}80`, fontFamily: "var(--font-geist-mono)" }}>
+          {project.type}
         </p>
-        <p style={{ color: BODY_TEXT, fontFamily: "var(--font-lora), Georgia, serif",
-                    fontSize: "1.02rem", lineHeight: "1.90" }}>
-          {project.description}
-        </p>
+        <h2 className="text-xl sm:text-2xl font-bold leading-tight mb-6"
+            style={{ color: "var(--text-primary)", fontFamily: "var(--font-playfair), Georgia, serif" }}>
+          Process Flow
+        </h2>
       </div>
+      <ProcessFlow steps={project.processSteps ?? []} accentColor={ac} />
+    </div>
+  );
+}
 
-      <div className="h-px" style={{ background: `${ac}14` }} />
+// ─── Right page — How It Works ────────────────────────────────────────────────
 
-      <div className="p-4"
-           style={{ background: "rgba(245,220,170,0.07)", border: "1px solid rgba(201,162,39,0.22)" }}>
-        <p className="text-[10px] tracking-[0.25em] uppercase mb-2"
-           style={{ color: "var(--text-muted)", fontFamily: "var(--font-geist-mono)" }}>
-          Outcome
-        </p>
-        <p style={{ color: BODY_TEXT, fontFamily: "var(--font-lora), Georgia, serif",
-                    fontSize: "0.97rem", lineHeight: "1.78" }}>
-          {project.outcome}
-        </p>
-      </div>
-
-      <div>
-        <p className="text-[10px] tracking-[0.25em] uppercase mb-3"
-           style={{ color: "var(--text-muted)", fontFamily: "var(--font-geist-mono)" }}>
-          Highlights
-        </p>
-        <div className="space-y-2.5">
-          {project.features.map((f) => (
-            <div key={f} className="flex items-start gap-2.5">
-              <span className="mt-1.5 w-1 h-1 rounded-full flex-shrink-0" style={{ background: ac }} />
-              <p style={{ color: BODY_TEXT, fontFamily: "var(--font-lora), Georgia, serif",
-                          fontSize: "0.95rem", lineHeight: "1.70" }}>
-                {f}
-              </p>
-            </div>
-          ))}
+function HowItWorksRight({ project }: { project: Project }) {
+  const ac = project.accentColor;
+  return (
+    <div className="flex flex-col gap-4 md:h-full overflow-y-auto p-5 sm:p-7 md:p-8">
+      {project.systemDiagram ? (
+        <>
+          <p className="text-[10px] tracking-[0.3em] uppercase mb-2"
+             style={{ color: `${ac}80`, fontFamily: "var(--font-geist-mono)" }}>
+            Architecture
+          </p>
+          <h2 className="text-xl sm:text-2xl font-bold leading-tight mb-6"
+              style={{ color: "var(--text-primary)", fontFamily: "var(--font-playfair), Georgia, serif" }}>
+            System Overview
+          </h2>
+          <SystemDiagram {...project.systemDiagram} accentColor={ac} />
+        </>
+      ) : (
+        <div className="flex-1 flex flex-col items-center justify-center gap-3 opacity-20">
+          <div
+            className="w-14 h-14 rounded-full flex items-center justify-center"
+            style={{ border: `1px dashed ${ac}50` }}
+          >
+            <span style={{ color: ac, fontSize: "1.25rem" }}>◉</span>
+          </div>
+          <p className="text-xs text-center" style={{ color: ac, fontFamily: "var(--font-geist-mono)" }}>
+            system diagram
+          </p>
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -564,6 +573,7 @@ function ChapterTransitionOverlay({
 function BookSpread({ project, onClose }: { project: Project; onClose: () => void }) {
   const [page, setPage] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [isHovered, setIsHovered] = useState(false);
   // coverOpen: false on mount → true after 80 ms, triggering the opening animation.
   const [coverOpen, setCoverOpen] = useState(false);
   const prefersReducedMotion = useReducedMotion() ?? false;
@@ -571,7 +581,9 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const screenshots = project.screenshots ?? [];
-  const totalPages = 1 + screenshots.length;
+  const hasProcess = !!(project.processSteps && project.processSteps.length > 0);
+  const screenshotOffset = hasProcess ? 2 : 1;
+  const totalPages = screenshotOffset + screenshots.length;
   const isFirst = page === 0;
   const isLast  = page === totalPages - 1;
   const ac = project.accentColor;
@@ -627,28 +639,29 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
     if (!groups) return;
     const prevPage = prevPageRef.current;
     prevPageRef.current = page;
-    if (page === 0 || prevPage === 0) return;
-    const prevGroup = getGroupInfo(groups, prevPage - 1);
-    const currGroup = getGroupInfo(groups, page - 1);
+    // Don't trigger when navigating out of or into non-screenshot pages
+    if (page < screenshotOffset || prevPage < screenshotOffset) return;
+    const prevGroup = getGroupInfo(groups, prevPage - screenshotOffset);
+    const currGroup = getGroupInfo(groups, page - screenshotOffset);
     if (prevGroup?.label !== currGroup?.label && currGroup) {
       setChapterBanner(currGroup.label);
       const t = setTimeout(() => setChapterBanner(null), 2400);
       return () => clearTimeout(t);
     }
-  }, [page, project.screenshotGroups]);
+  }, [page, project.screenshotGroups, screenshotOffset]);
 
-  // Auto-slide: advance one screenshot every 2 s while gallery is visible.
-  // Pauses during intro, chapter transitions, overview page, and single-screenshot projects.
-  // Resets the 2 s window on every manual navigation (page dep causes re-run).
-  // Loops: after the last screenshot wraps back to screenshot 1.
+  // Auto-slide: advance one screenshot every 4.5 s while gallery is visible.
+  // Pauses during intro, chapter transitions, non-screenshot pages, and on hover.
+  // Resets the window on every manual navigation (page dep causes re-run).
+  // Loops: after the last screenshot wraps back to the first screenshot.
   useEffect(() => {
-    if (chapterBanner || page === 0 || screenshots.length <= 1) return;
+    if (chapterBanner || page < screenshotOffset || screenshots.length <= 1 || isHovered) return;
     const t = setInterval(() => {
       setDirection(1);
-      setPage((p) => (p >= totalPages - 1 ? 1 : p + 1));
-    }, 2000);
+      setPage((p) => (p >= totalPages - 1 ? screenshotOffset : p + 1));
+    }, 4500);
     return () => clearInterval(t);
-  }, [page, chapterBanner, screenshots.length, totalPages]);
+  }, [page, chapterBanner, screenshots.length, totalPages, isHovered, screenshotOffset]);
 
   const goNext = () => { if (!isLast)  { setDirection(1);  setPage((p) => p + 1); } };
   const goPrev = () => { if (!isFirst) { setDirection(-1); setPage((p) => p - 1); } };
@@ -670,12 +683,14 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
       };
 
   const isOverview = page === 0;
-  const screenshotIndex = page - 1;
+  const isProcess  = hasProcess && page === 1;
+  const isGallery  = !isOverview && !isProcess;
+  const screenshotIndex = page - screenshotOffset;
 
   // Shared jump handler — used by both GalleryLeft dots and GalleryRight caption dots
   const jumpToScreenshot = (idx: number) => {
     setDirection(idx > screenshotIndex ? 1 : -1);
-    setPage(idx + 1);
+    setPage(idx + screenshotOffset);
   };
 
   return (
@@ -694,6 +709,8 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
         border: "1px solid rgba(201,162,39,0.14)",
         boxShadow: "0 40px 100px rgba(0,0,0,0.85), 0 12px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(245,220,170,0.04)",
       }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       onClick={(e) => e.stopPropagation()}
     >
       {/* ── HEADER ───────────────────────────────────────────────────────────── */}
@@ -848,12 +865,12 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
               initial="enter"
               animate="center"
               exit="exit"
-              className={`md:absolute md:inset-0 grid grid-cols-1 ${isOverview ? 'min-h-full md:grid-cols-[1fr_4px_1fr]' : 'h-full grid-rows-[minmax(0,2fr)_minmax(0,1fr)] md:grid-rows-none md:grid-cols-[1fr_4px_2fr]'}`}
+              className={`md:absolute md:inset-0 grid grid-cols-1 ${isGallery ? 'h-full grid-rows-[minmax(0,2fr)_minmax(0,1fr)] md:grid-rows-none md:grid-cols-[1fr_4px_2fr]' : 'min-h-full md:grid-cols-[1fr_4px_1fr]'}`}
             >
 
-              {/* LEFT PAGE — mobile: order 2 */}
+              {/* LEFT PAGE — overview/process: order 2 on mobile; gallery: order 2 */}
               <div
-                className="h-full order-2 md:order-none overflow-hidden border-t border-[rgba(201,162,39,0.12)] md:border-t-0"
+                className={`h-full ${isProcess ? "order-1" : "order-2"} md:order-none overflow-hidden border-t border-[rgba(201,162,39,0.12)] md:border-t-0`}
                 style={{
                   background: "linear-gradient(to bottom right, rgba(245,232,210,0.062), rgba(245,232,210,0.035))",
                   boxShadow: "inset -6px 0 16px rgba(0,0,0,0.18)",
@@ -861,6 +878,8 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
               >
                 {isOverview
                   ? <OverviewLeft project={project} />
+                  : isProcess
+                  ? <HowItWorksLeft project={project} />
                   : <GalleryLeft project={project} />
                 }
               </div>
@@ -879,16 +898,18 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
                 }}
               />
 
-              {/* RIGHT PAGE — mobile: order 1 */}
+              {/* RIGHT PAGE — overview/gallery: order 1 on mobile; process: order 2 */}
               <div
-                className="h-full order-1 md:order-none overflow-hidden"
+                className={`h-full ${isProcess ? "order-2" : "order-1"} md:order-none overflow-hidden`}
                 style={{
                   background: "rgba(245,232,210,0.030)",
                   boxShadow: "inset 6px 0 16px rgba(0,0,0,0.18)",
                 }}
               >
                 {isOverview
-                  ? <OverviewRight project={project} />
+                  ? <ProjectInfo project={project} />
+                  : isProcess
+                  ? <HowItWorksRight project={project} />
                   : (
                     <GalleryRight
                       project={project}
@@ -943,7 +964,11 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
           <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5">
             <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-          {page === 1 ? "Overview" : "Prev"}
+          {page === screenshotOffset
+            ? (hasProcess ? "Process" : "Overview")
+            : page === 1
+            ? "Overview"
+            : "Prev"}
         </button>
 
         {/* Page dots */}
@@ -977,7 +1002,11 @@ function BookSpread({ project, onClose }: { project: Project; onClose: () => voi
             cursor: isLast ? "default" : "pointer",
           }}
         >
-          {page === 0 ? "Gallery" : "Next"}
+          {page === 0
+            ? (hasProcess ? "Process" : "Gallery")
+            : (isProcess && screenshots.length > 0)
+            ? "Gallery"
+            : "Next"}
           <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5">
             <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>

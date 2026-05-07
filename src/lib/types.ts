@@ -25,6 +25,32 @@ export interface Project {
   gradientFrom: string;
   gradientTo: string;
   accentColor: string;
+
+  // Brand language fields
+  headline?: string;
+  impactStatement?: string;
+  problemStatementShort?: string;
+  keyFeatures?: string[];
+  processSteps?: ProcessStep[];
+  systemDiagram?: SystemDiagramData;
+}
+
+export interface ProcessStep {
+  title: string;
+  description?: string;
+  order: number;
+}
+
+export interface DiagramNode {
+  label: string;
+  icon?: string;
+  role: "user" | "system" | "service" | "database";
+}
+
+export interface SystemDiagramData {
+  title: string;
+  nodes: DiagramNode[];
+  connections: Array<{ from: number; to: number }>;
 }
 
 export interface SkillGroup {

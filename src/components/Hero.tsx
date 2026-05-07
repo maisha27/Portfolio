@@ -501,7 +501,21 @@ export default function Hero() {
                 letterSpacing: "0.04em",
               }}
             >
-              Full Stack Developer &amp; UI/UX Designer
+              Creative Product Engineer
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
+              className="text-lg sm:text-xl font-semibold tracking-tight mb-4 max-w-xl"
+              style={{
+                color: "var(--text-primary)",
+                fontFamily: "var(--font-playfair), Georgia, serif",
+                lineHeight: "1.4",
+              }}
+            >
+              Creative engineer. Empathetic builder. Accessibility advocate.
             </motion.p>
 
             <motion.p
@@ -513,11 +527,12 @@ export default function Hero() {
                 color: "var(--text-secondary)",
                 lineHeight: "1.85",
                 fontFamily: "var(--font-lora), Georgia, serif",
-                fontSize: "1.1rem",
+                fontSize: "1.05rem",
               }}
             >
-              I design and build full-stack web and mobile applications with a strong focus on user
-              experience, real-world problem solving, and clean, scalable systems.
+              I bridge design and development to create products that solve real problems — with
+              accessibility and UX at the core. From concept to deployment, I build end-to-end
+              solutions that make real people&apos;s lives better.
             </motion.p>
 
             <motion.div
@@ -549,9 +564,9 @@ export default function Hero() {
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
               className="flex flex-wrap gap-3 sm:gap-4 mb-10 sm:mb-12"
             >
-              <a
+              <motion.a
                 href="#work"
-                className="inline-flex items-center gap-2 px-5 sm:px-7 py-3 text-sm font-semibold transition-all duration-400 hover:scale-[1.03]"
+                className="inline-flex items-center gap-2 px-5 sm:px-7 py-3 text-sm font-semibold"
                 style={{
                   background: "linear-gradient(135deg, rgba(201,162,39,0.92), rgba(172,115,8,0.88))",
                   color: "#0d0802",
@@ -560,12 +575,14 @@ export default function Hero() {
                   boxShadow: "0 0 28px rgba(201,162,39,0.18)",
                   borderRadius: "2px",
                 }}
+                whileHover={{ scale: 1.04, boxShadow: "0 0 42px rgba(201,162,39,0.34)" }}
+                transition={{ type: "spring", stiffness: 320, damping: 22 }}
               >
                 View Work
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-              </a>
+              </motion.a>
               <a
                 href="#contact"
                 className="inline-flex items-center gap-2 px-5 sm:px-7 py-3 text-sm font-medium transition-all duration-300"
